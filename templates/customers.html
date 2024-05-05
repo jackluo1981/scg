@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% set customer_form_url = url_for('customer_info') %}
+{% set report_customer_bookings_url = url_for('report_customer_bookings') %}
+<h5 class="mb-3">Customers</h5>
+<!-- Search box -->
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="row row-cols-auto align-items-center">
+                <div class="col">
+                    <form action="{{ url_for('list_customers') }}" method="GET" class="row row-cols-auto">
+                        <div class="col-10">
+                            <div class="row">
+                                <input type="text" value="{{ search_keyword }}" name="search_keyword" id="search_keyword"
+                                       class="form-control col" placeholder="name, phone or email"
+                                        pattern="\w{1,20}" title="Only words and numbers are allowed. Limit 20 characters"/>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-primary mb-2">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-4 text-end">
+            <a href="{{ customer_form_url + '?mode=add' }}" class="btn btn-primary" role="button">Add Customer</a>
+        </div>
+    </div>
+
+</div>
+
+<!-- camper list -->
+{% if customers %}
+<div class="customers">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Family Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        {% for customer in customers %}
+        <!--
+            TODO: proper way of building the URL with query string, which handles all escaping special characters, and
+                making it URL safe.
+
+                This is a terrible practise. Query strings shouldn't be built by concatenating
+                strings. It opens to injection attacks.
+         -->
+        {% set customer_form_url_with_params = customer_form_url + '?mode=update&customer_id=' + customer.customer_id|string %}
+        {% set report_customer_bookings_url_with_params = report_customer_bookings_url + '?customer_id=' + customer.customer_id|string %}
+        <tr>
+            <td><a href="{{ customer_form_url_with_params }}">{{ customer.customer_id }}</a></td>
+            <td>{{ customer.firstname }}</td>
+            <td>{{ customer.familyname }}</td>
+            <td>{{ customer.phone }}</td>
+            <td>{{ customer.email }}</td>
+            <td><a href="{{ customer_form_url_with_params }}" class="btn btn-sm btn-link" role="button">Edit</a>
+                <a href="{{ report_customer_bookings_url_with_params }}" class="btn btn-sm btn-link" role="button">Report</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+{% endblock %}

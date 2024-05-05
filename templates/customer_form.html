@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<h5 class="mb-3">Customer Info</h5>
+<!-- Successful message -->
+{% if success_message %}
+<div class="alert alert-success alert-dismissible" role="alert">
+    <div>{{ success_message }}</div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+<!-- Error message -->
+{% if error_messages %}
+<div class="alert alert-danger alert-dismissible" role="alert">
+    {% for error_message in error_messages %}
+        <div>{{ error_message }}</div>
+    {% endfor %}
+
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+<!-- mode: add || update. Defaulted to update -->
+<form action="{{ url_for('customer_info' )}}" method="POST">
+    {% set mode = 'add' if mode == 'add' else 'update' %}
+    <input type="hidden" id="mode" name="mode" value="{{ mode }}">
+    {% if mode != 'add' %}
+    <div class="mb-3">
+        <label for="customer_id" class="form-label">Customer Id</label>
+        <input type="text" readonly name="customer_id" value="{{ customer.customer_id }}" id="customer_id"
+            class="form-control" required/>
+    </div>
+    {% endif %}
+
+    <div class="mb-3">
+        <label for="first_name" class="form-label">First Name</label>
+        <input type="text" name="firstname" id="first_name" value="{{ customer.firstname }}"
+            class="form-control" pattern="\w{1,40}" title="Only words are allowed"/>
+    </div>
+
+    <div class="mb-3">
+        <label for="family_name" class="form-label">Family Name</label>
+        <input type="text" name="familyname" id="family_name" value="{{ customer.familyname }}"
+            class="form-control" pattern="\w{1,40}" title="Only words are allowed"/>
+    </div>
+
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" name="email" id="email" value="{{ customer.email }}"
+            class="form-control"/>
+    </div>
+
+    <div class="mb-3">
+        <label for="phone" class="form-label">Phone</label>
+        <input type="text" name="phone" id="phone" value="{{ customer.phone }}" required
+            class="form-control" pattern="^\+?\d{6,11}$" title="Only + sign and number are allowed"/>
+    </div>
+
+    <button type="submit" class="btn btn-primary me-3">{{ 'Add Customer' if mode == 'add' else 'Update Customer' }}</button>
+    <a href="{{ url_for('list_customers') }}" class="btn btn-outline-secondary" role="button">Cancel</a>
+</form>
+{% endblock %}

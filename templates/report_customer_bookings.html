@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<h5 class="mb-3">Customer bookings report</h5>
+<!-- Error message -->
+{% if error_messages %}
+<div class="alert alert-danger alert-dismissible" role="alert">
+    {% for error_message in error_messages %}
+        <div>{{ error_message }}</div>
+    {% endfor %}
+
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<div>
+    <a href="{{ url_for('list_customers') }}" class="btn btn-primary" role="button">Go Back</a>
+</div>
+{% endif %}
+
+{% if not error_messages %}
+<div class="fs-6 mb-3">The report was run at: <span class="fw-semibold">{{ report.run_at }}</span></div>
+<div>
+    <div class="mb-3 fs-6">
+        <span class="me-3"><span class="fw-semibold">ID: </span> {{ report.customer_id }}</span>
+        <span class="me-3"><span class="fw-semibold">Name: </span>{{ report.full_name }}</span>
+        <span class="me-3"><span class="fw-semibold">Phone: </span>{{ report.phone }}</span>
+        <span class="me-3"><span class="fw-semibold">Email: </span>{{ report.email }}</span>
+    </div>
+    <div>
+        <h6>Total:</h6>
+        <div>
+            <span class="me-5">Bookings: <span class="fw-semibold">{{ report.all_bookings.nights }}</span></span>
+            <span>Average Occupancy: <span class="fw-semibold">{{ report.all_bookings.avg_occupancy }}</span></span>
+        </div>
+        <hr>
+        <h6>Past:</h6>
+        <div>
+            <span class="me-5">Bookings: <span class="fw-semibold">{{ report.past_bookings.nights }}</span></span>
+            <span>Average Occupancy: <span class="fw-semibold">{{ report.past_bookings.avg_occupancy }}</span></span>
+        </div>
+        <hr>
+        <h6>Current:</h6>
+        <div>
+            <span class="me-5">Bookings: <span class="fw-semibold">{{ report.current_bookings.nights }}</span></span>
+            <span>Average Occupancy: <span class="fw-semibold">{{ report.current_bookings.avg_occupancy }}</span></span>
+        </div>
+        <hr>
+        <h6>Future:</h6>
+        <div>
+            <span class="me-5">Bookings: <span class="fw-semibold">{{ report.future_bookings.nights }}</span></span>
+            <span>Average Occupancy: <span class="fw-semibold">{{ report.future_bookings.avg_occupancy }}</span></span>
+        </div>
+        <hr>
+    </div>
+    <P>
+    <a href="{{ url_for('list_customers') }}" class="btn btn-primary" role="button">Go Back</a>
+</div>
+{% endif %}
+
+{% endblock %}

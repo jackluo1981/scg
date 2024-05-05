@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<h5 class="mb-3">Camper List</h5>
+<div class="container">
+    <div class="row row-cols-auto align-items-center">
+        <div class="col">
+            <form action="{{url_for('campers')}}" method="GET" class="row row-cols-auto">
+                <div class="col">
+                    <div class="row">
+                        <label for="camp_date" class="col-form-label col-3">Date</label>
+                        <input type="date" value="{{camp_date}}" name="camp_date" id="camp_date"
+                               class="form-control col"/>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <button type="submit" class="btn btn-primary mb-2">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Error message -->
+{% if error_message %}
+<div class="error-message">
+    <div class="text-bg-warning p-3">{{ error_message }}</div>
+</div>
+{% endif %}
+
+<!-- camper list -->
+{% if camper_list %}
+<div class="camper-list">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Site Id</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Family Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Occupancy</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% for camper_item in camper_list %}
+            <tr>
+                <td>{{ camper_item.site_id }}</td>
+                <td>{{ camper_item.first_name }}</td>
+                <td>{{ camper_item.family_name }}</td>
+                <td>{{ camper_item.phone }}</td>
+                <td>{{ camper_item.email }}</td>
+                <td>{{ camper_item.occupancy }}</td>
+            </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+{% endblock %}

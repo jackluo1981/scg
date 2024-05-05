@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- code in here to display a list of books-->
+<h4 class="mb-3">Make a booking(1/2 steps): Search available sites</h4>
+<!-- Successful message -->
+{% if success_message %}
+<div class="alert alert-success alert-dismissible" role="alert">
+    <div>{{ success_message }}</div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+<!-- Error message -->
+{% if error_messages %}
+<div class="alert alert-danger alert-dismissible" role="alert">
+    {% for error_message in error_messages %}
+        <div>{{ error_message }}</div>
+    {% endfor %}
+
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+<form action="{{ url_for('booking' )}}" method="POST">
+    <div class="mb-3">
+        <label for="booking_date" class="form-label">Start Night</label>
+        <input type="date" value="{{booking_date}}" min="{{booking_date}}" name="booking_date" id="booking_date"
+            class="form-control"/>
+    </div>
+
+    <div class="mb-3">
+        <label for="booking_nights" class="form-label">Number of nights</label>
+        <input type="number" name="booking_nights" id="booking_nights" min="1" max="5" step="1"
+               value="{{ booking_nights }}" class="form-control"/>
+    </div>
+
+    <div class="mb-3">
+        <label for="occupancy" class="form-label">Number of people</label>
+        <input type="number" name="occupancy" id="occupancy" min="1" max="8" step="1" value="{{ occupancy }}"
+            class="form-control"/>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+{% endblock %}

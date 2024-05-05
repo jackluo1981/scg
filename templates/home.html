@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="list-group">
+    <a href="{{ url_for('campers' )}}"
+       class="list-group-item list-group-item-action list-group-item-primary">List Campers</a>
+    <a href="{{ url_for('booking' )}}"
+       class="list-group-item list-group-item-action list-group-item-primary">Make a booking</a>
+    <a href="{{ url_for('list_customers') }}"
+       class="list-group-item list-group-item-action list-group-item-primary">Customer Management</a>
+<!--    <a href="#"-->
+<!--       class="list-group-item list-group-item-action list-group-item-primary">Report - Bookings of a customer</a>-->
+</div>
+{% endblock %}
