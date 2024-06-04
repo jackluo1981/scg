@@ -141,6 +141,7 @@ class MyDB:
         result = self.cursor.fetchone()
         return True if result['count'] > 0 else False
 
+    # "like" search by firstname, familyname, phone or email
     def smart_search_customer(self, search_keyword):
         sql = """
             SELECT *

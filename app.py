@@ -1,16 +1,13 @@
 from flask import Flask
 from flask import render_template
 from flask import request
-from flask import redirect
-from flask import url_for
-import re
 from datetime import datetime
-from datetime import date
-from datetime import timedelta
+
+from mysql.connector.cursor import MySQLCursorDict
+
 import bll
-import dal
-import helpers
 from scgexceptions import ExceptionInvalidParameters, ExceptionViolatedBusinessLogic
+import mysql.connector
 
 print('### starting server')
 
